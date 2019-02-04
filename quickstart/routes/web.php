@@ -40,3 +40,17 @@ Route::delete('/task/{task}', function (Task $task) {
     $task->delete();
     return redirect('/');
 });
+Route::delete('/task/{task}', function (Task $task) {
+    $task->delete();
+    return redirect('/');
+});
+Route::put('/donetask/{task}', function (Task $task) {
+    $task->done = 1;
+    $task->save();
+    return redirect('/');
+});
+Route::put('/notdone/{task}', function (Task $task) {
+    $task->done = 0;
+    $task->save();
+    return redirect('/');
+});

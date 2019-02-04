@@ -16,7 +16,7 @@
 
             <!-- Task Name -->
             <div class="form-group">
-                <label for="task" class="col-sm-3 control-label">Task</label>
+                <label for="task" class="col-sm-3 control-label">TAREAS</label>
 
                 <div class="col-sm-6">
                     <input type="text" name="name" id="task-name" class="form-control">
@@ -27,7 +27,7 @@
             <div class="form-group">
                 <div class="col-sm-offset-3 col-sm-6">
                     <button type="submit" class="btn btn-default">
-                        <i class="fa fa-plus"></i> Add Task
+                        <i class="fa fa-plus"></i> Añadir tarea
                     </button>
                 </div>
             </div>
@@ -45,34 +45,88 @@
                 <table class="table table-striped task-table">
 
                     <!-- Table Headings -->
-                    <thead>
-                        <th>Task</th>
-                        <th>&nbsp;</th>
-                    </thead>
+                        <thead>
+                            <th>Tareas a realizar</th>
+                            <th>&nbsp;</th>
+                        </thead>
 
-                    <!-- Table Body -->
-                    <tbody>
-                        @foreach ($tasks as $task)
-                            <tr>
-                                <!-- Task Name -->
-                                <td class="table-text">
-                                    <div>{{ $task->name }}</div>
-                                </td>
+                        <!-- Table Body -->
+                        <tbody>
+                            @foreach ($tasks as $task)
+                                @if ( $task->done  == 0)
+                                    <tr>
+                                        <!-- Task Name -->
+                                        <td class="table-text">
+                                            <div>{{ $task->name }}</div>
+                                        </td>
 
-                                <!-- Delete Button -->
-                                <td>
-                                    <form action="{{ url('task/'.$task->id) }}" method="POST">
-                                        {{ csrf_field() }}
-                                        {{ method_field('DELETE') }}
+                                        <!-- Delete Button -->
+                                        <td>
 
-                                        <button type="submit" class="btn btn-danger">
-                                            <i class="fa fa-trash"></i> Delete
-                                        </button>
-                                    </form>
-                                </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
+                                            <form action="{{ url('task/'.$task->id) }}" method="POST">
+                                                {{ csrf_field() }}
+                                                {{ method_field('DELETE') }}
+
+                                                <button type="submit" class="btn btn-danger">
+                                                    <i class="fa fa-trash"></i> Borrar
+                                                </button>
+                                            </form>
+
+                                            <form action="{{ url('donetask/'.$task->id) }}" method="POST">
+                                                {{ csrf_field() }}
+                                                {{ method_field('PUT') }}
+                                                <button type="submit" class="btn btn-danger">
+                                                    <i class="fa fa-trash"></i> Realizada
+                                                </button>
+                                            </form>
+
+                                        </td>
+                                    </tr>
+                                @endif
+                            @endforeach
+                        </tbody>
+
+
+                        <!-- Table Headings -->
+                        <thead>
+                            <th>Tarea realizada</th>
+                            <th>&nbsp;</th>
+                        </thead>
+
+                        <!-- Table Body -->
+                        <tbody>
+                            @foreach ($tasks as $task)
+                                @if ( $task->done  == 1)
+                                    <tr>
+                                        <!-- Task Name -->
+                                        <td class="table-text">
+                                            <div>{{ $task->name }}</div>
+                                        </td>
+
+                                        <!-- Delete Button -->
+                                        <td>
+                                            <form action="{{ url('task/'.$task->id) }}" method="POST">
+                                                {{ csrf_field() }}
+                                                {{ method_field('DELETE') }}
+
+                                                <button type="submit" class="btn btn-danger">
+                                                    <i class="fa fa-trash"></i> Borrar
+                                                </button>
+                                            </form>
+                                            
+                                            <form action="{{ url('notdone/'.$task->id) }}" method="POST">
+                                                {{ csrf_field() }}
+                                                {{ method_field('PUT') }}
+
+                                                <button type="submit" class="btn btn-danger">
+                                                    <i class="fa fa-trash"></i> No Realizada
+                                                </button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                @endif
+                            @endforeach
+                        </tbody>
                 </table>
             </div>
         </div>
